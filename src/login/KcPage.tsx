@@ -3,7 +3,7 @@ import type { ClassKey } from "keycloakify/login";
 import type { KcContext } from "./KcContext";
 import { useI18n } from "./i18n";
 import DefaultPage from "keycloakify/login/DefaultPage";
-import Template from "keycloakify/login/Template";
+import Template from "./Template";
 const UserProfileFormFields = lazy(
     () => import("keycloakify/login/UserProfileFormFields")
 );
@@ -13,7 +13,16 @@ const doMakeUserConfirmPassword = true;
 export default function KcPage(props: { kcContext: KcContext }) {
     const { kcContext } = props;
 
-    const { i18n } = useI18n({ kcContext });
+    // 确保默认使用中文
+    const kcContextWithChinese = {
+        ...kcContext,
+        locale: {
+            ...kcContext.locale,
+            currentLanguageTag: "zh-CN"
+        }
+    };
+
+    const { i18n } = useI18n({ kcContext: kcContextWithChinese });
 
     return (
         <Suspense>
@@ -22,7 +31,7 @@ export default function KcPage(props: { kcContext: KcContext }) {
                     default:
                         return (
                             <DefaultPage
-                                kcContext={kcContext}
+                                kcContext={kcContextWithChinese}
                                 i18n={i18n}
                                 classes={classes}
                                 Template={Template}

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run storybook:*)",
+      "Bash(npx storybook dev:*)",
+      "Bash(npm run build-keycloak-theme:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx keycloakify build:*)",
+      "Bash(dir:*)",
+      "Bash(rm:*)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
