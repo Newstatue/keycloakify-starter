@@ -39,11 +39,11 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
             socialProvidersNode={
                 <>
                     {realm.password && social?.providers !== undefined && social.providers.length !== 0 && (
-                        <div className="space-y-4">
+                        <div className="space-y-5">
                             <Separator />
                             <div>
                                 <h2 className="text-lg font-semibold text-center mb-4">{msg("identity-provider-login-label")}</h2>
-                                <div className={`grid gap-2 ${social.providers.length > 3 ? "grid-cols-2" : "grid-cols-1"}`}>
+                                <div className={`grid gap-3 ${social.providers.length > 3 ? "grid-cols-2" : "grid-cols-1"}`}>
                                     {social.providers.map((p) => (
                                         <Button
                                             key={p.alias}
@@ -64,11 +64,11 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                 </>
             }
         >
-            <div className="w-full">
+            <div className="space-y-6">
                 {realm.password && (
                     <form
                         id="kc-form-login"
-                        className="space-y-4"
+                        className="space-y-5"
                         onSubmit={() => {
                             setIsLoginButtonDisabled(true);
                             return true;
@@ -77,7 +77,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
                         method="post"
                     >
                         {!usernameHidden && (
-                            <div className="space-y-2">
+                            <div className="space-y-3">
                                 <Label htmlFor="username">
                                     {!realm.loginWithEmailAllowed
                                         ? msg("username")

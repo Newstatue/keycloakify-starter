@@ -24,13 +24,14 @@ export default function LoginResetPassword(props: PageProps<Extract<KcContext, {
             infoNode={realm.duplicateEmailsAllowed ? msg("emailInstructionUsername") : msg("emailInstruction")}
             headerNode={msg("emailForgotTitle")}
         >
-            <form id="kc-reset-password-form" className="space-y-4" action={url.loginAction} method="post">
-                <div className="space-y-2">
-                    <Label htmlFor="username">
-                        {!realm.loginWithEmailAllowed
-                            ? msg("username")
-                            : !realm.registrationEmailAsUsername
-                              ? msg("usernameOrEmail")
+            <div className="space-y-6">
+                <form id="kc-reset-password-form" className="space-y-5" action={url.loginAction} method="post">
+                    <div className="space-y-3">
+                        <Label htmlFor="username">
+                            {!realm.loginWithEmailAllowed
+                                ? msg("username")
+                                : !realm.registrationEmailAsUsername
+                                  ? msg("usernameOrEmail")
                               : msg("email")}
                     </Label>
                     <Input
@@ -57,13 +58,14 @@ export default function LoginResetPassword(props: PageProps<Extract<KcContext, {
                     <Button type="submit" className="w-full">
                         {msgStr("doSubmit")}
                     </Button>
-                    <div className="text-center">
-                        <a href={url.loginUrl} className="text-sm text-primary hover:underline">
-                            {msg("backToLogin")}
-                        </a>
+                        <div className="text-center">
+                            <a href={url.loginUrl} className="text-sm text-primary hover:underline">
+                                {msg("backToLogin")}
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </Template>
     );
 }

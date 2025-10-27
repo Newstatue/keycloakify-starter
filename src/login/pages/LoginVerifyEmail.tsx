@@ -33,8 +33,10 @@ export default function LoginVerifyEmail(props: PageProps<Extract<KcContext, { p
                 </Card>
             }
         >
-            <div className="text-center">
-                <p className="text-muted-foreground">{msg("emailVerifyInstruction1", user?.email ?? "")}</p>
+            <div className="space-y-6">
+                <div className="text-center">
+                    <p className="text-muted-foreground">{msg("emailVerifyInstruction1", user?.email ?? "")}</p>
+                </div>
             </div>
         </Template>
     );

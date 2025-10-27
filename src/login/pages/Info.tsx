@@ -28,8 +28,8 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
                 />
             }
         >
-            <div className="space-y-4">
-                <Card className="p-4">
+            <div className="space-y-6">
+                <Card className="p-5">
                     <div className="flex gap-3">
                         <InfoIcon className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                         <p

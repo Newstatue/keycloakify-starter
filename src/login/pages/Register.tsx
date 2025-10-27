@@ -54,55 +54,57 @@ export default function Register(props: RegisterProps) {
             displayMessage={messagesPerField.exists("global")}
             displayRequiredFields
         >
-            <form id="kc-register-form" className="space-y-4" action={url.registrationAction} method="post">
-                <UserProfileFormFields
-                    kcContext={kcContext}
-                    i18n={i18n}
-                    kcClsx={kcClsx}
-                    onIsFormSubmittableValueChange={setIsFormSubmittable}
-                    doMakeUserConfirmPassword={doMakeUserConfirmPassword}
-                />
-                {termsAcceptanceRequired && (
-                    <TermsAcceptance
+            <div className="space-y-6">
+                <form id="kc-register-form" className="space-y-5" action={url.registrationAction} method="post">
+                    <UserProfileFormFields
+                        kcContext={kcContext}
                         i18n={i18n}
-                        messagesPerField={messagesPerField}
-                        areTermsAccepted={areTermsAccepted}
-                        onAreTermsAcceptedValueChange={setAreTermsAccepted}
+                        kcClsx={kcClsx}
+                        onIsFormSubmittableValueChange={setIsFormSubmittable}
+                        doMakeUserConfirmPassword={doMakeUserConfirmPassword}
                     />
-                )}
-                {recaptchaRequired && (recaptchaVisible || recaptchaAction === undefined) && (
-                    <div className="flex justify-center">
-                        <div className="g-recaptcha" data-size="compact" data-sitekey={recaptchaSiteKey} data-action={recaptchaAction}></div>
-                    </div>
-                )}
-
-                <div className="flex flex-col gap-3">
-                    {recaptchaRequired && !recaptchaVisible && recaptchaAction !== undefined ? (
-                        <Button
-                            className="w-full g-recaptcha"
-                            data-sitekey={recaptchaSiteKey}
-                            data-callback="onSubmitRecaptcha"
-                            data-action={recaptchaAction}
-                            type="submit"
-                        >
-                            {msg("doRegister")}
-                        </Button>
-                    ) : (
-                        <Button
-                            disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)}
-                            className="w-full"
-                            type="submit"
-                        >
-                            {msgStr("doRegister")}
-                        </Button>
+                    {termsAcceptanceRequired && (
+                        <TermsAcceptance
+                            i18n={i18n}
+                            messagesPerField={messagesPerField}
+                            areTermsAccepted={areTermsAccepted}
+                            onAreTermsAcceptedValueChange={setAreTermsAccepted}
+                        />
                     )}
-                    <div className="text-center">
-                        <a href={url.loginUrl} className="text-sm text-primary hover:underline">
-                            {msg("backToLogin")}
-                        </a>
+                    {recaptchaRequired && (recaptchaVisible || recaptchaAction === undefined) && (
+                        <div className="flex justify-center">
+                            <div className="g-recaptcha" data-size="compact" data-sitekey={recaptchaSiteKey} data-action={recaptchaAction}></div>
+                        </div>
+                    )}
+
+                    <div className="flex flex-col gap-3">
+                        {recaptchaRequired && !recaptchaVisible && recaptchaAction !== undefined ? (
+                            <Button
+                                className="w-full g-recaptcha"
+                                data-sitekey={recaptchaSiteKey}
+                                data-callback="onSubmitRecaptcha"
+                                data-action={recaptchaAction}
+                                type="submit"
+                            >
+                                {msg("doRegister")}
+                            </Button>
+                        ) : (
+                            <Button
+                                disabled={!isFormSubmittable || (termsAcceptanceRequired && !areTermsAccepted)}
+                                className="w-full"
+                                type="submit"
+                            >
+                                {msgStr("doRegister")}
+                            </Button>
+                        )}
+                        <div className="text-center">
+                            <a href={url.loginUrl} className="text-sm text-primary hover:underline">
+                                {msg("backToLogin")}
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </Template>
     );
 }
@@ -118,12 +120,12 @@ function TermsAcceptance(props: {
     const { msg } = i18n;
 
     return (
-        <Card className="p-4 space-y-3">
-            <div>
-                <h3 className="font-semibold mb-2">{msg("termsTitle")}</h3>
+        <Card className="p-5 space-y-3">
+            <div className="space-y-2">
+                <h3 className="font-semibold">{msg("termsTitle")}</h3>
                 <div className="text-sm text-muted-foreground">{msg("termsText")}</div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
                 <div className="flex items-start space-x-2">
                     <Checkbox
                         id="termsAccepted"

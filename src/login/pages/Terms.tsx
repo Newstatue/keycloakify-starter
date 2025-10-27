@@ -21,8 +21,8 @@ export default function Terms(props: PageProps<Extract<KcContext, { pageId: "ter
             displayMessage={false}
             headerNode={msg("termsTitle")}
         >
-            <div className="space-y-4">
-                <Card className="p-4">
+            <div className="space-y-6">
+                <Card className="p-5">
                     <ScrollArea className="h-[300px] w-full rounded-md">
                         <div className="text-sm text-muted-foreground whitespace-pre-wrap">
                             {msg("termsText")}

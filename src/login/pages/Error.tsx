@@ -22,8 +22,8 @@ export default function Error(props: PageProps<Extract<KcContext, { pageId: "err
             displayMessage={false}
             headerNode={msg("errorTitle")}
         >
-            <div className="space-y-4">
-                <Alert variant="destructive">
+            <div className="space-y-6">
+                <Alert variant="destructive" className="rounded-lg">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }} />
                 </Alert>

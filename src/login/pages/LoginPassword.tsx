@@ -30,10 +30,10 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { page
             headerNode={msg("doLogIn")}
             displayMessage={!messagesPerField.existsError("password")}
         >
-            <div className="w-full max-w-md mx-auto space-y-6">
+            <div className="space-y-6">
                 <form
                     id="kc-form-login"
-                    className="space-y-6"
+                    className="space-y-5"
                     onSubmit={() => {
                         setIsLoginButtonDisabled(true);
                         return true;
