@@ -1,0 +1,6 @@
+/* Keycloak 主题 CSS - 包含 shadcn/ui 和 Tailwind 样式 */
+@import "../index.css";
+@import "./keycloak-base.css";
+
+/* 确保所有 Tailwind 和 shadcn/ui 样式都可用 */
+/* 这里会包含所有必要的样式定义 */

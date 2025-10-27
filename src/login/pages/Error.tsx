@@ -2,6 +2,9 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { AlertCircle } from "lucide-react";
 
 export default function Error(props: PageProps<Extract<KcContext, { pageId: "error.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -19,14 +22,19 @@ export default function Error(props: PageProps<Extract<KcContext, { pageId: "err
             displayMessage={false}
             headerNode={msg("errorTitle")}
         >
-            <div id="kc-error-message">
-                <p className="instruction" dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }} />
+            <div className="space-y-4">
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }} />
+                </Alert>
                 {!skipLink && client !== undefined && client.baseUrl !== undefined && (
-                    <p>
-                        <a id="backToApplication" href={client.baseUrl}>
-                            {msg("backToApplication")}
-                        </a>
-                    </p>
+                    <div className="text-center">
+                        <Button variant="outline" asChild>
+                            <a id="backToApplication" href={client.baseUrl}>
+                                {msg("backToApplication")}
+                            </a>
+                        </Button>
+                    </div>
                 )}
             </div>
         </Template>

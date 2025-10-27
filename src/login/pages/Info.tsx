@@ -2,6 +2,9 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Info as InfoIcon } from "lucide-react";
 
 export default function Info(props: PageProps<Extract<KcContext, { pageId: "info.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -25,27 +28,32 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
                 />
             }
         >
-            <div id="kc-info-message">
-                <p
-                    className="instruction"
-                    dangerouslySetInnerHTML={{
-                        __html: kcSanitize(
-                            (() => {
-                                let html = message.summary?.trim();
+            <div className="space-y-4">
+                <Card className="p-4">
+                    <div className="flex gap-3">
+                        <InfoIcon className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                        <p
+                            className="text-sm text-muted-foreground"
+                            dangerouslySetInnerHTML={{
+                                __html: kcSanitize(
+                                    (() => {
+                                        let html = message.summary?.trim();
 
-                                if (requiredActions) {
-                                    html += " <b>";
+                                        if (requiredActions) {
+                                            html += " <b>";
 
-                                    html += requiredActions.map(requiredAction => advancedMsgStr(`requiredAction.${requiredAction}`)).join(", ");
+                                            html += requiredActions.map(requiredAction => advancedMsgStr(`requiredAction.${requiredAction}`)).join(", ");
 
-                                    html += "</b>";
-                                }
+                                            html += "</b>";
+                                        }
 
-                                return html;
-                            })()
-                        )
-                    }}
-                />
+                                        return html;
+                                    })()
+                                )
+                            }}
+                        />
+                    </div>
+                </Card>
                 {(() => {
                     if (skipLink) {
                         return null;
@@ -53,24 +61,30 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
 
                     if (pageRedirectUri) {
                         return (
-                            <p>
-                                <a href={pageRedirectUri}>{msg("backToApplication")}</a>
-                            </p>
+                            <div className="text-center">
+                                <Button variant="default" asChild>
+                                    <a href={pageRedirectUri}>{msg("backToApplication")}</a>
+                                </Button>
+                            </div>
                         );
                     }
                     if (actionUri) {
                         return (
-                            <p>
-                                <a href={actionUri}>{msg("proceedWithAction")}</a>
-                            </p>
+                            <div className="text-center">
+                                <Button variant="default" asChild>
+                                    <a href={actionUri}>{msg("proceedWithAction")}</a>
+                                </Button>
+                            </div>
                         );
                     }
 
                     if (client.baseUrl) {
                         return (
-                            <p>
-                                <a href={client.baseUrl}>{msg("backToApplication")}</a>
-                            </p>
+                            <div className="text-center">
+                                <Button variant="default" asChild>
+                                    <a href={client.baseUrl}>{msg("backToApplication")}</a>
+                                </Button>
+                            </div>
                         );
                     }
                 })()}
