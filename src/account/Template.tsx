@@ -187,7 +187,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                                 </Button>
                             </SheetTrigger>
                             <SheetContent side="left" className="w-64 p-0">
-                                                                    <Card className="h-full rounded-none border-0">
+                                <Card className="h-full rounded-none border-0">
                                     <CardHeader>
                                         <CardTitle>{msg("accountManagementTitle")}</CardTitle>
                                     </CardHeader>
@@ -227,7 +227,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 <aside className="hidden md:block w-1/4">
                     <Card className="shadow-sm">
                         <CardHeader>
-                            <CardTitle>{msg("accountSettingsSidebarTitle" as any)}</CardTitle>
+                           <CardTitle>{msg("accountManagementTitle")}</CardTitle>
                         </CardHeader>
                         <CardContent>{SidebarMenu}</CardContent>
                     </Card>
@@ -241,7 +241,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             className="mb-4"
                         >
                             <AlertTitle>
-                                {message.type === "success" ? msg("operationSuccess") : msg("operationError")}
+                                {message.type === "success" ? msg("operationSuccess" as any) : msg("operationError" as any)}
                             </AlertTitle>
                             <AlertDescription
                                 dangerouslySetInnerHTML={{

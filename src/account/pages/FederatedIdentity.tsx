@@ -16,17 +16,16 @@ export default function FederatedIdentity(
 
   return (
     <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="social">
-      <div className="flex flex-col gap-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            {msg("federatedIdentitiesHtmlTitle")}
-          </h2>
-        </div>
-
-        <div id="federated-identities" className="space-y-4">
+      <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
+        <div className="md:p-6">
           {federatedIdentity.identities.map(identity => (
-            <Card key={identity.providerId} className="shadow-sm">
+            <Card key={identity.providerId} className="mb-4">
               <CardHeader>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-semibold tracking-tight">
+                    {msg("federatedIdentitiesHtmlTitle")}
+                  </h2>
+                </div>
                 <CardTitle className="text-base font-medium">
                   {identity.displayName}
                 </CardTitle>

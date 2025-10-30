@@ -28,8 +28,9 @@ export default function Sessions(
 
   return (
     <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="sessions">
-      <div className="flex flex-col gap-4">
-        <Card className="w-full max-w-4xl">
+      <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
+        <div className="md:p-6">
+          <Card>
           <CardHeader>
             <CardTitle className="text-2xl font-semibold">
               {msg("sessionsHtmlTitle")}
@@ -91,6 +92,7 @@ export default function Sessions(
             </form>
           </CardContent>
         </Card>
+      </div>
       </div>
     </Template>
   );

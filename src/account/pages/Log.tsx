@@ -1,5 +1,5 @@
 import type { Key } from "react";
-import { getKcClsx } from "keycloakify/account/lib/kcClsx";
+// import { getKcClsx } from "keycloakify/account/lib/kcClsx";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
@@ -18,31 +18,27 @@ export default function Log(
 ) {
     const { kcContext, i18n, doUseDefaultCss, classes, Template } = props;
 
-    const { kcClsx } = getKcClsx({
-        doUseDefaultCss,
-        classes
-    });
+    // const { kcClsx } = getKcClsx({
+    //     doUseDefaultCss,
+    //     classes
+    // });
 
     const { log } = kcContext;
     const { msg } = i18n;
 
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="log">
-            <div className={kcClsx("kcContentWrapperClass")}>
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-semibold tracking-tight">
-                        {msg("accountLogHtmlTitle")}
-                    </h2>
-                </div>
+            <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
+                <div className="md:p-6">
 
-                <Card className="shadow-sm border border-border/50">
-                    <CardHeader>
-                        <CardTitle className="text-lg font-medium">
-                            {msg("accountLogHtmlTitle")}
-                        </CardTitle>
-                    </CardHeader>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-2xl font-semibold">
+                                {msg("accountLogHtmlTitle")}
+                            </CardTitle>
+                        </CardHeader>
 
-                    <CardContent>
+                        <CardContent>
                         <div className="overflow-x-auto rounded-md border">
                             <Table>
                                 <TableHeader>
@@ -93,6 +89,7 @@ export default function Log(
                         </div>
                     </CardContent>
                 </Card>
+                </div>
             </div>
         </Template>
     );

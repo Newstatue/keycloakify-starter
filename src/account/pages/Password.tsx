@@ -75,7 +75,9 @@ export default function Password(
             active="password"
         >
 
-            <Card className="max-w-2xl">
+            <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
+                <div className="md:p-6">
+                        <Card>
                 <CardHeader>
                     <CardTitle>{msg("changePasswordHtmlTitle")}</CardTitle>
                     <CardDescription>{msg("allFieldsRequired")}</CardDescription>
@@ -173,6 +175,8 @@ export default function Password(
                     </form>
                 </CardContent>
             </Card>
+            </div>
+            </div>
         </Template>
     );
 }

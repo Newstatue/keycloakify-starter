@@ -49,8 +49,9 @@ export default function Account(
 
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="account">
-            <div className="max-w-3xl mx-auto space-y-6 py-6">
-                <Card>
+            <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
+                <div className="md:p-6">
+                    <Card>
                     <CardHeader>
                         <CardTitle className="text-2xl font-semibold">
                             {msg("editAccountHtmlTitle")}
@@ -171,13 +172,13 @@ export default function Account(
                                     case "success":
                                         return (
                                             <span className="text-green-600">
-                                                {msg("profileSuccessfullyUpdated")}
+                                                {msg("profileSuccessfullyUpdated" as any)}
                                             </span>
                                         );
                                     case "cancelled":
                                         return (
                                             <span className="text-red-600">
-                                                {msg("profileUnchanged")}
+                                                {msg("profileUnchanged" as any)}
                                             </span>
                                         );
                                 }
@@ -194,7 +195,7 @@ export default function Account(
                             })
                         }
                     >
-                        {msg("updateProfileViaLoginTheme")}
+                        {msg("updateProfileViaLoginTheme" as any)}
                     </Button>
 
                     <Button
@@ -204,7 +205,7 @@ export default function Account(
                             })
                         }
                     >
-                        {msg("deleteAccount")}
+                        {msg("deleteAccount" as any)}
                     </Button>
 
                     {kcContext.features.passwordUpdateSupported && (
@@ -228,13 +229,13 @@ export default function Account(
                                                     case "success":
                                                         return (
                                                             <span className="text-green-600">
-                                                                {msg("passwordSuccessfullyUpdated")}
+                                                                {msg("passwordSuccessfullyUpdated" as any)}
                                                             </span>
                                                         );
                                                     case "cancelled":
                                                         return (
                                                             <span className="text-red-600">
-                                                                {msg("passwordUnchanged")}
+                                                                {msg("passwordUnchanged" as any)}
                                                             </span>
                                                         );
                                                 }
@@ -245,6 +246,7 @@ export default function Account(
                         </>
                     )}
                 </div>
+            </div>
             </div>
         </Template>
     );

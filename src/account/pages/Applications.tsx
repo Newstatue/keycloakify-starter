@@ -33,13 +33,14 @@ export default function Applications(
 
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="applications">
-            <div className="flex flex-col gap-6">
+            <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
+                <div className="md:p-6">
 
-                <form action={url.applicationsUrl} method="post" className="space-y-4">
-                    <input type="hidden" id="stateChecker" name="stateChecker" value={stateChecker} />
-                    <input type="hidden" id="referrer" name="referrer" value={stateChecker} />
+                    <form action={url.applicationsUrl} method="post" className="space-y-4">
+                        <input type="hidden" id="stateChecker" name="stateChecker" value={stateChecker} />
+                        <input type="hidden" id="referrer" name="referrer" value={stateChecker} />
 
-                    <Card className="shadow-sm">
+                        <Card>
                         <CardHeader>
                             <CardTitle>{msg("applicationsHtmlTitle")}</CardTitle>
                         </CardHeader>
@@ -202,6 +203,7 @@ export default function Applications(
                         </CardContent>
                     </Card>
                 </form>
+            </div>
             </div>
         </Template>
     );
