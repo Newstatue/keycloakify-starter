@@ -41,6 +41,9 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { page
                     action={url.loginAction}
                     method="post"
                 >
+                    {/* 隐藏的语言表单，确保 Keycloak 自动设置 locale=zh-CN */}
+                    <input type="hidden" name="user.attributes.locale" value="zh-CN" />
+
                     <div className="space-y-3">
                         <Label htmlFor="password" className="text-sm font-medium text-foreground">
                             {msg("password")}

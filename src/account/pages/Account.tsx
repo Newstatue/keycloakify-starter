@@ -72,6 +72,9 @@ export default function Account(
                                 value={stateChecker}
                             />
 
+                            {/* 隐藏的语言表单，确保 Keycloak 自动设置 locale=zh-CN */}
+                            <input type="hidden" name="user.attributes.locale" value="zh-CN" />
+
                             {!realm.registrationEmailAsUsername && (
                                 <div className="space-y-2">
                                     <Label htmlFor="username">

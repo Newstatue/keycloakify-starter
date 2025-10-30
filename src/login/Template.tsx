@@ -160,6 +160,11 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     </div>
                 </div>
             </div>
+
+            {/* 隐藏的语言表单，确保 Keycloak 自动设置 locale=zh-CN */}
+            <form id="kc-locale-form" action={url.loginAction} method="post" style={{ display: 'none' }}>
+                <input type="hidden" name="user.attributes.locale" value="zh-CN" />
+            </form>
         </div>
     );
 }

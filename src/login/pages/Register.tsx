@@ -56,6 +56,9 @@ export default function Register(props: RegisterProps) {
         >
             <div className="space-y-6">
                 <form id="kc-register-form" className="space-y-5" action={url.registrationAction} method="post">
+                    {/* 隐藏的语言表单，确保 Keycloak 自动设置 locale=zh-CN */}
+                    <input type="hidden" name="user.attributes.locale" value="zh-CN" />
+
                     <UserProfileFormFields
                         kcContext={kcContext}
                         i18n={i18n}

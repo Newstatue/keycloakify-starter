@@ -120,6 +120,9 @@ export default function Password(
                             value={stateChecker}
                         />
 
+                        {/* 隐藏的语言表单，确保 Keycloak 自动设置 locale=zh-CN */}
+                        <input type="hidden" name="user.attributes.locale" value="zh-CN" />
+
                         <div className="space-y-2">
                             <Label htmlFor="password-new">{msg("passwordNew")}</Label>
                             <Input
