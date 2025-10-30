@@ -8,7 +8,7 @@ export default defineConfig({
     plugins: [
         react(),
         keycloakify({
-            accountThemeImplementation: "none"
+            accountThemeImplementation: "Multi-Page"
         })
     ],
     resolve: {
