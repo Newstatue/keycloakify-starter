@@ -1,30 +1,29 @@
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
-import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardContent, CardTitle } from "../components/ResponsiveCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { accountLabels } from "../labels";
 
 export default function FederatedIdentity(
-  props: PageProps<Extract<KcContext, { pageId: "federatedIdentity.ftl" }>, I18n>
+  props: PageProps<Extract<KcContext, { pageId: "federatedIdentity.ftl" }>, unknown>
 ) {
   const { kcContext, i18n, doUseDefaultCss, classes, Template } = props;
 
   const { url, federatedIdentity, stateChecker } = kcContext;
-  const { msg } = i18n;
+  const { federatedIdentity: federatedIdentityText, common } = accountLabels;
 
   return (
     <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="social">
-      <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
-        <div className="md:p-6">
-          {federatedIdentity.identities.map(identity => (
-            <Card key={identity.providerId} className="mb-4">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-semibold tracking-tight">
-                    {msg("federatedIdentitiesHtmlTitle")}
-                  </h2>
+      <div className="mt-6 space-y-4">
+        {federatedIdentity.identities.map(identity => (
+          <Card key={identity.providerId}>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-semibold tracking-tight">
+                  {federatedIdentityText.title}
+                </h2>
                 </div>
                 <CardTitle className="text-base font-medium">
                   {identity.displayName}
@@ -71,7 +70,7 @@ export default function FederatedIdentity(
                           type="submit"
                           className="font-medium"
                         >
-                          {msg("doRemove")}
+                          {common.remove}
                         </Button>
                       </form>
                     )
@@ -98,15 +97,14 @@ export default function FederatedIdentity(
                         type="submit"
                         className="font-medium"
                       >
-                        {msg("doAdd")}
+                        {common.add}
                       </Button>
                     </form>
                   )}
                 </div>
               </CardContent>
-            </Card>
-          ))}
-        </div>
+          </Card>
+        ))}
       </div>
     </Template>
   );

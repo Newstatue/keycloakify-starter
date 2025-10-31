@@ -3,14 +3,14 @@ import { clsx } from "keycloakify/tools/clsx";
 import { getKcClsx } from "keycloakify/account/lib/kcClsx";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ResponsiveCard";
+import { accountLabels } from "../labels";
 
 export default function Password(
-    props: PageProps<Extract<KcContext, { pageId: "password.ftl" }>, I18n>
+    props: PageProps<Extract<KcContext, { pageId: "password.ftl" }>, unknown>
 ) {
     const { kcContext, i18n, doUseDefaultCss, Template } = props;
 
@@ -25,7 +25,7 @@ export default function Password(
     });
 
     const { url, password, account, stateChecker } = kcContext;
-    const { msgStr, msg } = i18n;
+    const { password: passwordText, common } = accountLabels;
 
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -38,7 +38,7 @@ export default function Password(
     const checkNewPassword = (newPassword: string) => {
         if (!password.passwordSet) return;
         if (newPassword === currentPassword) {
-            setNewPasswordError(msgStr("newPasswordSameAsOld"));
+            setNewPasswordError(passwordText.sameAsOldError);
         } else {
             setNewPasswordError("");
         }
@@ -47,7 +47,7 @@ export default function Password(
     const checkNewPasswordConfirm = (newPasswordConfirm: string) => {
         if (newPasswordConfirm === "") return;
         if (newPassword !== newPasswordConfirm) {
-            setNewPasswordConfirmError(msgStr("passwordConfirmNotMatch"));
+            setNewPasswordConfirmError(passwordText.confirmMismatchError);
         } else {
             setNewPasswordConfirmError("");
         }
@@ -74,20 +74,13 @@ export default function Password(
             }}
             active="password"
         >
-
-            <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
-                <div className="md:p-6">
-                        <Card>
+            <Card className="mt-6">
                 <CardHeader>
-                    <CardTitle>{msg("changePasswordHtmlTitle")}</CardTitle>
-                    <CardDescription>{msg("allFieldsRequired")}</CardDescription>
+                    <CardTitle>{passwordText.title}</CardTitle>
+                    <CardDescription>{passwordText.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form
-                        action={url.passwordUrl}
-                        method="post"
-                        className="space-y-5"
-                    >
+                    <form action={url.passwordUrl} method="post" className="space-y-5">
                         <input
                             type="text"
                             id="username"
@@ -100,7 +93,7 @@ export default function Password(
 
                         {password.passwordSet && (
                             <div className="space-y-2">
-                                <Label htmlFor="password">{msg("password")}</Label>
+                                <Label htmlFor="password">{common.password}</Label>
                                 <Input
                                     type="password"
                                     id="password"
@@ -124,7 +117,7 @@ export default function Password(
                         <input type="hidden" name="user.attributes.locale" value="zh-CN" />
 
                         <div className="space-y-2">
-                            <Label htmlFor="password-new">{msg("passwordNew")}</Label>
+                            <Label htmlFor="password-new">{passwordText.newPassword}</Label>
                             <Input
                                 type="password"
                                 id="password-new"
@@ -144,7 +137,7 @@ export default function Password(
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="password-confirm">{msg("passwordConfirm")}</Label>
+                            <Label htmlFor="password-confirm">{passwordText.confirmPassword}</Label>
                             <Input
                                 type="password"
                                 id="password-confirm"
@@ -172,14 +165,12 @@ export default function Password(
                                 disabled={newPasswordError !== "" || newPasswordConfirmError !== ""}
                                 className={kcClsx("kcButtonClass", "kcButtonPrimaryClass", "kcButtonLargeClass")}
                             >
-                                {msg("doSave")}
+                                {common.save}
                             </Button>
                         </div>
                     </form>
                 </CardContent>
             </Card>
-            </div>
-            </div>
         </Template>
     );
 }

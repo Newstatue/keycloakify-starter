@@ -1,7 +1,6 @@
-import { getKcClsx } from "keycloakify/account/lib/kcClsx";
+﻿import { getKcClsx } from "keycloakify/account/lib/kcClsx";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
 import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
 import {
   Table,
   TableBody,
@@ -11,10 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "../components/ResponsiveCard";
+import { accountLabels } from "../labels";
 
 export default function Sessions(
-  props: PageProps<Extract<KcContext, { pageId: "sessions.ftl" }>, I18n>
+  props: PageProps<Extract<KcContext, { pageId: "sessions.ftl" }>, unknown>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
@@ -24,76 +24,69 @@ export default function Sessions(
   });
 
   const { url, stateChecker, sessions } = kcContext;
-  const { msg } = i18n;
+  const { sessions: sessionsText, common } = accountLabels;
 
   return (
     <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="sessions">
-      <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
-        <div className="md:p-6">
-          <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl font-semibold">
-              {msg("sessionsHtmlTitle")}
-            </CardTitle>
-          </CardHeader>
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle className="text-2xl font-semibold">
+            {sessionsText.title}
+          </CardTitle>
+        </CardHeader>
 
-          <CardContent>
-            <div className="overflow-x-auto rounded-lg border border-border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>{msg("ip")}</TableHead>
-                    <TableHead>{msg("started")}</TableHead>
-                    <TableHead>{msg("lastAccess")}</TableHead>
-                    <TableHead>{msg("expires")}</TableHead>
-                    <TableHead>{msg("clients")}</TableHead>
+        <CardContent className="space-y-6">
+          <div className="overflow-x-auto rounded-lg border border-border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{common.ip}</TableHead>
+                  <TableHead>{common.started}</TableHead>
+                  <TableHead>{common.lastAccess}</TableHead>
+                  <TableHead>{common.expires}</TableHead>
+                  <TableHead>{common.clients}</TableHead>
+                </TableRow>
+              </TableHeader>
+
+              <TableBody>
+                {sessions.sessions.map((session, index: number) => (
+                  <TableRow key={index} className="hover:bg-muted/40">
+                    <TableCell>{session.ipAddress}</TableCell>
+                    <TableCell>{session?.started}</TableCell>
+                    <TableCell>{session?.lastAccess}</TableCell>
+                    <TableCell>{session?.expires}</TableCell>
+                    <TableCell>
+                      {session.clients.map((client: string, clientIndex: number) => (
+                        <div key={clientIndex} className="text-sm leading-tight">
+                          {client}
+                        </div>
+                      ))}
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
-                <TableBody>
-                  {sessions.sessions.map((session, index: number) => (
-                    <TableRow key={index} className="hover:bg-muted/40">
-                      <TableCell>{session.ipAddress}</TableCell>
-                      <TableCell>{session?.started}</TableCell>
-                      <TableCell>{session?.lastAccess}</TableCell>
-                      <TableCell>{session?.expires}</TableCell>
-                      <TableCell>
-                        {session.clients.map((client: string, clientIndex: number) => (
-                          <div key={clientIndex} className="text-sm leading-tight">
-                            {client}
-                          </div>
-                        ))}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-
-            <form
-              action={url.sessionsUrl}
-              method="post"
-              className="flex justify-end mt-6"
+          <form action={url.sessionsUrl} method="post" className="flex justify-end">
+            <input type="hidden" id="stateChecker" name="stateChecker" value={stateChecker} />
+            <Button
+              id="logout-all-sessions"
+              type="submit"
+              variant="destructive"
+              className={kcClsx("kcButtonDefaultClass", "kcButtonClass")}
             >
-              <input
-                type="hidden"
-                id="stateChecker"
-                name="stateChecker"
-                value={stateChecker}
-              />
-              <Button
-                id="logout-all-sessions"
-                type="submit"
-                variant="destructive"
-                className={kcClsx("kcButtonDefaultClass", "kcButtonClass")}
-              >
-                {msg("doLogOutAllSessions")}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-      </div>
+              {common.logoutAllSessions}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </Template>
   );
 }
+
+
+
+
+
+

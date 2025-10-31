@@ -1,4 +1,4 @@
-// import { clsx } from "keycloakify/tools/clsx";
+﻿// import { clsx } from "keycloakify/tools/clsx";
 // import { getKcClsx } from "keycloakify/account/lib/kcClsx";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { PageProps } from "keycloakify/account/pages/PageProps";
@@ -17,7 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ResponsiveCard";
+import { accountLabels } from "../labels";
 
 export default function Totp(
   props: PageProps<Extract<KcContext, { pageId: "totp.ftl" }>, I18n>
@@ -26,25 +27,31 @@ export default function Totp(
   //   const { kcClsx } = getKcClsx({ doUseDefaultCss, classes });
 
   const { totp, mode, url, messagesPerField, stateChecker } = kcContext;
-  const { msg, msgStr, advancedMsg } = i18n;
+  const { advancedMsg } = i18n;
+  const { totp: totpText, common } = accountLabels;
+  const policy = totp.policy ?? null;
+  const policyTypeLabel =
+    (policy && totpText.policyType[policy.type]) ?? policy?.type ?? "";
+  const policyAlgorithm = typeof policy?.getAlgorithmKey === "function" ? policy.getAlgorithmKey() : "";
+  const policyDigits = policy?.digits ?? "";
+  const policyPeriod = policy?.type === "totp" ? policy.period : "";
+  const policyInitialCounter = policy?.type === "hotp" ? policy.initialCounter : "";
 
   return (
     <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} active="totp">
-      <div className="w-full md:shadow-lg md:bg-card md:border md:rounded-lg mt-6">
-        <div className="md:p-6">
-          <Card>
-            <CardHeader>
+      <Card className="mt-6">
+        <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-2xl font-semibold">{msg("authenticatorTitle")}</CardTitle>
+                <CardTitle className="text-2xl font-semibold">{totpText.title}</CardTitle>
                 {totp.otpCredentials.length === 0 && (
                   <div className="text-sm text-muted-foreground flex items-center gap-1">
                     <span className="text-destructive">*</span>
-                    {msg("requiredFields")}
+                    {common.requiredFields}
                   </div>
                 )}
               </div>
             </CardHeader>
-            <CardContent className="space-y-6">
+        <CardContent className="space-y-6">
 
               {/* 已启用 OTP 的表格 */}
               {totp.enabled && (
@@ -54,12 +61,12 @@ export default function Totp(
                       {totp.otpCredentials.length > 1 ? (
                         <>
                           <TableHead colSpan={4} className="font-semibold">
-                            {msg("configureAuthenticators")}
+                            {totpText.configureAuthenticators}
                           </TableHead>
                         </>
                       ) : (
                         <TableHead colSpan={3} className="font-semibold">
-                          {msg("configureAuthenticators")}
+                          {totpText.configureAuthenticators}
                         </TableHead>
                       )}
                     </TableRow>
@@ -67,7 +74,7 @@ export default function Totp(
                   <TableBody>
                     {totp.otpCredentials.map((credential, index) => (
                       <TableRow key={index}>
-                        <TableCell>{msg("mobile")}</TableCell>
+                        <TableCell>{totpText.mobile}</TableCell>
                         {totp.otpCredentials.length > 1 && (
                           <TableCell>{credential.id}</TableCell>
                         )}
@@ -93,8 +100,7 @@ export default function Totp(
                               id={`remove-mobile-${index}`}
                               variant="outline"
                               size="sm"
-                            >
-                              {msg("delete" as any)}
+                            >{common.remove}
                             </Button>
                           </form>
                         </TableCell>
@@ -110,7 +116,7 @@ export default function Totp(
                   <Separator />
                   <ol id="kc-totp-settings" className="list-decimal pl-6 space-y-4">
                     <li>
-                      <p>{msg("totpStep1")}</p>
+                      <p>{totpText.step1}</p>
                       <ul className="list-disc pl-4">
                         {totp.supportedApplications?.map((app) => (
                           <li key={app}>{advancedMsg(app)}</li>
@@ -121,7 +127,7 @@ export default function Totp(
                     {mode && mode === "manual" ? (
                       <>
                         <li>
-                          <p>{msg("totpManualStep2")}</p>
+                          <p>{totpText.manualStep2}</p>
                           <p className="font-mono bg-muted p-2 rounded-md">
                             {totp.totpSecretEncoded}
                           </p>
@@ -131,29 +137,36 @@ export default function Totp(
                               id="mode-barcode"
                               className="text-primary underline"
                             >
-                              {msg("totpScanBarcode")}
+                              {totpText.scanBarcode}
                             </a>
                           </p>
                         </li>
                         <li>
-                          <p>{msg("totpManualStep3")}</p>
+                          <p>{totpText.manualStep3}</p>
                           <ul className="list-disc pl-4">
-                            <li>
-                              {msg("totpType")}: {msg(`totp.${totp.policy.type}`)}
-                            </li>
-                            <li>
-                              {msg("totpAlgorithm")}: {totp.policy.getAlgorithmKey()}
-                            </li>
-                            <li>
-                              {msg("totpDigits")}: {totp.policy.digits}
-                            </li>
-                            {totp.policy.type === "totp" ? (
+                            {policyTypeLabel && (
                               <li>
-                                {msg("totpInterval")}: {totp.policy.period}
+                                {totpText.typeLabel}: {policyTypeLabel}
                               </li>
-                            ) : (
+                            )}
+                            {policyAlgorithm && (
                               <li>
-                                {msg("totpCounter")}: {totp.policy.initialCounter}
+                                {totpText.algorithmLabel}: {policyAlgorithm}
+                              </li>
+                            )}
+                            {policy?.digits !== undefined && (
+                              <li>
+                                {totpText.digitsLabel}: {policyDigits}
+                              </li>
+                            )}
+                            {policy?.type === "totp" && policyPeriod !== "" && (
+                              <li>
+                                {totpText.intervalLabel}: {policyPeriod}
+                              </li>
+                            )}
+                            {policy?.type === "hotp" && policyInitialCounter !== "" && (
+                              <li>
+                                {totpText.counterLabel}: {policyInitialCounter}
                               </li>
                             )}
                           </ul>
@@ -161,7 +174,7 @@ export default function Totp(
                       </>
                     ) : (
                       <li>
-                        <p>{msg("totpStep2")}</p>
+                        <p>{totpText.step2}</p>
                         <img
                           src={`data:image/png;base64, ${totp.totpSecretQrCode}`}
                           alt="QR Code"
@@ -173,15 +186,15 @@ export default function Totp(
                             id="mode-manual"
                             className="text-primary underline"
                           >
-                            {msg("totpUnableToScan")}
+                            {totpText.unableToScan}
                           </a>
                         </p>
                       </li>
                     )}
 
                     <li>
-                      <p>{msg("totpStep3")}</p>
-                      <p>{msg("totpStep3DeviceName")}</p>
+                      <p>{totpText.step3}</p>
+                      <p>{totpText.step3DeviceName}</p>
                     </li>
                   </ol>
 
@@ -199,7 +212,7 @@ export default function Totp(
                     {/* 验证码输入 */}
                     <div className="grid gap-2">
                       <Label htmlFor="totp">
-                        {msg("authenticatorCode")}
+                        {common.authenticatorCode}
                         <span className="text-destructive ml-1">*</span>
                       </Label>
                       <Input
@@ -225,7 +238,7 @@ export default function Totp(
                     {/* 设备名输入 */}
                     <div className="grid gap-2">
                       <Label htmlFor="userLabel">
-                        {msg("totpDeviceName")}
+                        {common.deviceName}
                         {totp.otpCredentials.length >= 1 && (
                           <span className="text-destructive ml-1">*</span>
                         )}
@@ -249,7 +262,7 @@ export default function Totp(
                     {/* 按钮 */}
                     <div className="flex justify-end gap-3">
                       <Button type="submit" id="saveTOTPBtn">
-                        {msgStr("doSave")}
+                        {common.save}
                       </Button>
                       <Button
                         type="submit"
@@ -258,16 +271,20 @@ export default function Totp(
                         value="Cancel"
                         variant="outline"
                       >
-                        {msg("doCancel")}
+                        {common.cancel}
                       </Button>
                     </div>
                   </form>
                 </div>
               )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </Template>
   );
 }
+
+
+
+
+
+
